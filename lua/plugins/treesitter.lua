@@ -2,7 +2,6 @@ local ts_languages = {
     'lua',
     'typescript',
     'javascript',
-    'typescriptreact',
     'python',
     'go'
 }
@@ -16,7 +15,6 @@ vim.pack.add({
 
 pcall(vim.cmd, "packadd nvim-treesitter")
 
--- 4. FIXED AUTOMATIC BOOTSTRAP: Scan and install missing parsers safely
 vim.schedule(function()
     -- Ensure the TSInstall command is registered before executing
     if vim.fn.exists(":TSInstall") ~= 2 then return end
@@ -40,6 +38,20 @@ vim.schedule(function()
         vim.cmd("TSInstall " .. table.concat(missing, " "))
     end
 end)
+
+local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
+if not status_ok then
+    -- If it fails on the very first boot because cloning is in progress,
+    -- this prevents the editor from crashing and lets it finish downloading.
+    return
+end
+
+configs.setup({
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+})
 
 vim.api.nvim_create_autocmd('FileType', {
     -- Added typescript and typescriptreact (for TSX) targets to the hook array

@@ -42,5 +42,35 @@ vim.lsp.config("tsc", {
     root_markers = { "tsconfig.json", "package.json", ".git" },
 })
 
+if vim.fn.executable('pyright-langserver') == 0 then
+    print("Pyright language server not found. Installing globally via npm...")
+
+    -- Execute global npm install asynchronously/synchronously on startup
+    vim.fn.system('npm install -g pyright')
+
+    -- Double check if installation succeeded
+    if vim.fn.executable('pyright-langserver') == 1 then
+        print("Pyright installed successfully!")
+    else
+        vim.notify("Failed to install Pyright. Please ensure node and npm are installed globally.", vim.log.levels.ERROR)
+    end
+end
+
+vim.lsp.config('pyright', {
+    capabilities = capabilities,
+    cmd = { 'pyright-langserver', '--stdio' },
+    filetypes = { 'python' },
+    root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', '.git' },
+    settings = {
+        python = {
+            analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'openFilesOnly',
+            },
+        },
+    },
+})
+
 -- lsp enable
-vim.lsp.enable({ "lua_ls", "tsc" })
+vim.lsp.enable({ "lua_ls", "tsc", "pyright" })
