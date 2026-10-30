@@ -8,6 +8,7 @@ vim.opt.winborder = "rounded"
 vim.opt.signcolumn = "yes"
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.wildmode = 'noselect:lastused,full' -- Configure native wildmenu to use a popup menu
+vim.opt.smartindent = false
 vim.o.undofile = true
 vim.o.breakindent = true
 vim.g.mapleader = " "
@@ -19,3 +20,9 @@ vim.api.nvim_create_autocmd('CmdlineChanged', {
         vim.fn.wildtrigger()
     end,
 })
+
+vim.g.python_indent = {
+    closed_paren_align_last_line = false,
+    open_paren = vim.fn.shiftwidth(),
+    continue = vim.fn.shiftwidth()
+}
