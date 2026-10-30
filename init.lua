@@ -8,6 +8,7 @@ require("plugins.autopairs")
 require("plugins.treesitter")
 require("plugins.lsp")
 require("plugins.git")
+require("plugins.tabout")
 
 require("options")
 require("keymaps")
