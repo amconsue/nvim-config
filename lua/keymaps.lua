@@ -65,3 +65,6 @@ vim.keymap.set('i', '<CR>', function()
         return autopairs.autopairs_cr()
     end
 end, { expr = true, replace_keycodes = true })
+
+-- Fugitive
+vim.keymap.set('n', '<leader>gt', '<cmd>Git log --graph --oneline --all<cr>', { desc = 'Git [T]ree' })
